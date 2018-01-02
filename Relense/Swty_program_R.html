@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>福音电台</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>   
+   .mccTitle{       
+        background-color: #eee;
+        background-color: rgba(86,61,124,.15);
+        padding: 8px 10px; 
+        border-radius: 3px;
+   }
+   .mccBorder {
+        margin-top: 5px;
+        border: 1px solid #c8c9ca;    
+   }
+   .mccYear{
+        font-size: 17px;
+        color: rgb(0, 0, 255);
+        font-weight: 700;
+   }
+   .mccMonth{
+        font-size: 16px;      
+        text-decoration: underline;
+   }
+   .mccDownloadImg{
+        margin-bottom: 5px;
+   }
+   .mccSpace{
+        white-space:nowrap;
+   }   
+   .mccItem{
+        background-color: #ffffff;
+        padding: 5px 0px;
+        margin-right: 1px; 
+   }
+   .mccItembackground{
+        background-color: #f6f4ff;
+        padding: 5px 0px;
+        border-radius: 3px;
+        margin-right: 1px; 
+   }
+  </style>
+</head>
+<body onload="loadLatestItem('ProgramList')">
+
+    <div class="container mccBorder"> 
+        <div class="row ">
+            <div class="col-sm-4">
+                <h4 class="mccTitle">归档节目</h4>
+                <p class="mccYear">2018年</p>  
+                <div class="row">
+                        <div class="col-sm-2 col-xs-3" >
+                            <a id="201801" href="#" class="mccMonth" onclick="changeProgramList(201801)">201801</a>
+                        </div>  
+                        <div class="col-sm-2 col-xs-3">
+                            <!-- <a id="201801" href="#" class="mccMonth"  onclick="changeProgramList(201802)">201802</a> -->
+                            <a id="201801" href="#" class="mccMonth"  onclick="createXHR()">201802</a>
+                        </div>
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201803</a>
+                        </div>
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201804</a>
+                        </div>                          
+                </div>
+                <div class="row">
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201805</a>
+                        </div> 
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201806</a>
+                        </div>  
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201807</a>
+                        </div>
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201808</a>
+                        </div>                        
+                </div>
+                <div class="row">
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201809</a>
+                        </div> 
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201810</a>
+                        </div>  
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201811</a>
+                        </div>
+                        <div class="col-sm-2 col-xs-3">
+                            <a id="201801" href="#" class="mccMonth">201812</a>
+                        </div>                        
+                    </div>        
+            </div>
+
+            <div class="col-sm-8">
+                <h4 class="mccTitle">节目列表</h4>
+                <div class="row ">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <!-- <label for="itemname" class="col-sm-1 control-label" style="margin-left:20px;"></label> -->
+                            <div class="col-sm-5 col-xs-8" style="margin-left:20px;">
+                                <input type="text" class="form-control" id="itemname" placeholder="请输入搜索的节目">
+                            </div>
+                            <button class="col-sm-1 col-xs-2 btn btn-primary" onclick="searchItem()">搜索</button>
+                        </div>
+                    </form>                 
+                </div>
+                <div class="row" style="margin-left:0px;">
+                    <div class="col-sm-2 col-xs-6 "><strong>节目时间</strong></div>
+                    <div class="col-sm-2 col-xs-6" style="padding-left:2px;"><strong>下载</strong></div>
+                    <div class="col-sm-5  col-xs-12"><strong>内容摘要</strong></div>                    
+                </div>
+                <hr style="margin-bottom:5px;margin-top:2px;"/>
+                <div id="ProgramList" style="margin-left:10px;">                                     
+                </div>
+            </div>    
+        </div>
+    
+    </div>
+
+
+    <script>
+        var imgurl = "http://www.swtychina.com/gb/images/download16.gif";
+        
+        var allData = '{"allData":[' +
+        '{ "programlistdate":"201801" , "programlist" : [' +
+        '{ "date":"2018-01-01" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180101.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"},' +
+        '{ "date":"2018-01-03" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180103.mp3" , "summary":"老人与鸡、智慧型手机"},' +
+        '{ "date":"2018-01-08" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180108.mp3" , "summary":"时间都哪儿去了？"} ]} ]}';
+
+        // swty:   http://api.swtychina.com/api/values
+        // date=2010-** 
+        // ?date=2010-01
+
+        // var allData = '{"allData":[' +
+        // '{ "programlistdate":"201801" , "programlist" : [' +
+        // '{ "date":"2018-01-01" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180101.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-01-03" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180103.mp3" , "summary":"老人与鸡、智慧型手机"  },' +
+        // '{ "date":"2018-01-08" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180108.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-01-10" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180110.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  },' +
+        // '{ "date":"2018-01-15" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180115.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-01-17" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180117.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  },' +
+        // '{ "date":"2018-01-22" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180122.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-01-24" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180124.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  },' +
+        // '{ "date":"2018-01-29" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180129.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-01-31" , "url":"http://swtychina.com/gb/audiodoc/2018/201801/20180131.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  } ]},' +
+        // '{ "programlistdate":"201802" , "programlist" : [' +
+        // '{ "date":"2018-02-05" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180205.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-02-07" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180207.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  },' +
+        // '{ "date":"2018-02-12" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180212.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-02-14" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180214.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  },' +
+        // '{ "date":"2018-02-19" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180219.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-02-21" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180221.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  },' +
+        // '{ "date":"2018-02-26" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180226.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音" },' +
+        // '{ "date":"2018-02-28" , "url":"http://swtychina.com/gb/audiodoc/2018/201802/20180228.mp3" , "summary":"世外桃源再回到休斯敦本地电台传福音"  } ]} ]}';
+
+
+
+        var obj = JSON.parse(allData);
+        var Allitem = new Array();
+        for (let indexAlldate = 0; indexAlldate < obj.allData.length; indexAlldate++) {                
+            for (let indexprogramlist = 0; indexprogramlist < obj.allData[indexAlldate].programlist.length; indexprogramlist++) {
+                Allitem.push(obj.allData[indexAlldate].programlist[indexprogramlist]);                    
+            }
+        }
+        function loadLatestItem(id)
+        {
+            // 显示最近20个节目
+            var latestitem = Allitem;            
+            latestitem.reverse();
+            //console.log("Allitem",Allitem);
+            var parent = document.getElementById(id);
+            var itemNumber = 0;
+            if (latestitem.length >= 20) {
+                itemNumber = 20;
+            }
+            else{
+                itemNumber = latestitem.length;
+            }
+            for (let index = 0; index < itemNumber; index++) {
+                loadItem(parent, latestitem[index], index%2 != 0);
+                // if (index/2 == 0) {
+                //     loadItem(parent, latestitem[index], true);
+                // }
+                // else{
+                //     loadItem(parent, latestitem[index]);
+                // }
+                                        
+                }
+            //console.log("latestitem",latestitem);            
+        }
+
+        
+        function changeProgramList(yearMonth)
+        {
+            // 删除原有节目
+            deleteProgramList("ProgramList");
+            // 添加当前节目
+            addProgramListByMonth("ProgramList",yearMonth);
+        }
+
+        function deleteProgramList(id)
+        {
+            var parent = document.getElementById(id);
+            var childslength = document.getElementsByName("item").length;
+            
+            //console.log("parent", parent);
+            //console.log("document.getElementById" ,document.getElementsByName("item"));
+            //parent.remove(parent.getElementsByTagName("p"));
+            for (let index = 0; index < childslength; index++) {
+                parent.removeChild(document.getElementsByName("item")[0]);
+                //console.log(parent);                
+            }
+        }
+        function addProgramListByMonth(id, date)
+        {
+            var dataMonth;
+            for(let i = 0; i < obj.allData.length; i++)
+            {
+                //console.log("obj.allData[i].programlistdate",obj.allData[i].programlistdate);
+                //console.log(date);
+                if (obj.allData[i].programlistdate == date) {
+                    dataMonth = obj.allData[i];
+                     break;                   
+                }
+               
+            }
+             
+            //console.log("obj",obj);
+            //console.log("dataMonth",dataMonth);
+            var parent = document.getElementById(id);
+            // console.log(parent);
+            // console.log(dataMonth.programlist.length);            
+            
+            for (let index = 0; index < dataMonth.programlist.length; index++) {
+                loadItem(parent, dataMonth.programlist[index],index%2 != 0);
+            }
+            //console.log("parent",parent);
+        }
+
+        function loadItem(parent,data,ishavebackgrouad) {
+            // <div class="row" name="item">   //parent_div 
+            //     <div class="col-sm-2 col-xs-6">2018-01-01</div>   // child_div1
+            //     <div class="col-sm-1 col-xs-6"><a href="#"><img src="http://www.swtychina.com/gb/images/download16.gif" class="mccDownloadImg"></a></div>  //child_div2
+            //     <div class="col-sm-4 col-xs-12"><span class="mccSpace">世外桃源再回到休斯敦本地电台传福音</span></div>  //child_div3
+            // </div>
+            //var parent = document.getElementById(id);
+            var parent_div = document.createElement("div");
+            if (ishavebackgrouad) {
+                parent_div.setAttribute("class","row mccItembackground");                
+            }
+            else{
+                parent_div.setAttribute("class","row mccItem");
+            }
+           
+            //parent_div.setAttribute("className","row");
+            parent_div.setAttribute("name","item");
+            //console.log("parent_div",parent_div);
+            parent.appendChild(parent_div);
+
+            var child_div1 = document.createElement("div");
+            child_div1.setAttribute("class","col-sm-2 col-xs-6");
+            var node1 = document.createTextNode(data.date);
+            child_div1.appendChild(node1);
+            parent_div.appendChild(child_div1);
+
+            var child_div2 = document.createElement("div");
+            child_div2.setAttribute("class","col-sm-1 col-xs-6");                
+            parent_div.appendChild(child_div2);
+
+            var child_div2_a = document.createElement("a");
+            child_div2_a.setAttribute("href",data.url);
+            child_div2.appendChild(child_div2_a);
+
+            var child_div2_a_img = document.createElement("img");
+            child_div2_a_img.setAttribute("src",imgurl);
+            child_div2_a_img.setAttribute("class","mccDownloadImg");
+            child_div2_a.appendChild(child_div2_a_img);
+
+            var child_div3 = document.createElement("div");                
+            child_div3.setAttribute("class","col-sm-6 col-xs-12");                
+                            
+            parent_div.appendChild(child_div3);
+
+            var child_div3_span = document.createElement("span");                
+            child_div3_span.setAttribute("class", "mccSpace");
+            
+            var node2 = document.createTextNode(data.summary);
+            child_div3.appendChild(node2);
+            child_div3.appendChild(child_div3_span);
+        }
+        function searchItem() {
+            // 删除原有节目
+            deleteProgramList("ProgramList");            
+            var input_value = document.getElementById("itemname").value.toLowerCase();           
+            //console.log("nodeValue",input_value);
+            for (let index = 0; index < Allitem.length; index++) {
+                   if (Allitem[index].date.toLowerCase().search(input_value) != -1 || 
+                   Allitem[index].summary.toLowerCase().search(input_value) != -1) { 
+                       loadItem(document.getElementById("ProgramList"), Allitem[index])                      
+                   }             
+            }
+        }
+    </script>
+</body>
+</html>
