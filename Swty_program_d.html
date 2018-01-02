@@ -170,9 +170,9 @@
                             var itemDate = new Date(val.date.substring(0, 4),val.date.substring(5, 7)-1,val.date.substring(8,10));
                             var todayDate = new Date();
                             var weekday = itemDate.getDay();
-                            console.log("weekday:",weekday);
-                            console.log("itemDate:",itemDate);
-                            console.log("item:",item);
+                            // console.log("weekday:",weekday);
+                            // console.log("itemDate:",itemDate);
+                            // console.log("item:",item);
                              // 只显示截至到今天的，星期一和星期三的节目。
                             if (itemDate <= todayDate && (weekday==1 || weekday==3)) {
                                 if(isLoadLatestItem){                            
